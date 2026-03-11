@@ -5,19 +5,31 @@ pipeline {
         nodejs 'nodejs18'
     }
     stages {
-//        stage("Build") {
-//           steps {
-//                script {
-//                    echo "Building The Application."
-//                    sh 'npm build'
-//                }
-//            }
-//        }  
+
+        stage('Debug') {
+            steps {
+                script {
+                sh 'node -v'
+                sh 'npm -v'
+                sh 'pwd'
+                sh 'ls -la'
+                }
+             }
+        }
+
+        stage("Build") {
+            steps {
+                script {
+                    echo "Building The Application."
+                    sh 'cd app && npm ci'
+                }
+            }
+        }
         stage("Test") {
             steps {
                 script {
                     echo "Testing The Application."
-                    sh 'npm test'
+                    sh 'cd app && npm test'
                 }
             }
         }
@@ -46,5 +58,4 @@ pipeline {
         }               
     }
 } 
-
 
