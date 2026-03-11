@@ -9,7 +9,7 @@ pipeline {
             steps {
                 script {
                     echo "Building The Application."
-                    sh 'npm install'
+                    sh 'npm build'
                 }
             }
         }
