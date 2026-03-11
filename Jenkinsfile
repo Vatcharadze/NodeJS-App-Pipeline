@@ -5,14 +5,14 @@ pipeline {
         nodejs 'nodejs18'
     }
     stages {
-        stage("Build") {
-            steps {
-                script {
-                    echo "Building The Application."
-                    sh 'npm build'
-                }
-            }
-        }
+//        stage("Build") {
+//           steps {
+//                script {
+//                    echo "Building The Application."
+//                    sh 'npm build'
+//                }
+//            }
+//        }  
         stage("Test") {
             steps {
                 script {
