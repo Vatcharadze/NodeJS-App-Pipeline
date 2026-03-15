@@ -49,7 +49,7 @@ pipeline {
                 script {
                     echo "Building The Application."
                     sh 'cd app && npm ci'
-                }vatcharadze/demo-app
+                }
             }
         }
         //tests application
