@@ -3,7 +3,7 @@ pipeline {
     //defining VERSION for no bug issues 
     environment {
         VERSION = ""
-        DOCKER_REPO = "vatcharadze/demo-app" //type your own DockerHub Repo name
+        DOCKER_REPO = "yourname/your-repo" //type your own DockerHub Repo name
     }
    //using nodejs for tool
     tools {
