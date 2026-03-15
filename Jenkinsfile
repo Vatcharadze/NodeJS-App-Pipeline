@@ -3,6 +3,7 @@ pipeline {
     //defining VERSION for no bug issues 
     environment {
         VERSION = ""
+        DOCKER_REPO = "vatcharadze/demo-app" //type your own DockerHub Repo name
     }
    //using nodejs for tool
     tools {
@@ -48,7 +49,7 @@ pipeline {
                 script {
                     echo "Building The Application."
                     sh 'cd app && npm ci'
-                }
+                }vatcharadze/demo-app
             }
         }
         //tests application
@@ -68,9 +69,9 @@ pipeline {
                     def IMAGE_TAG = "${VERSION}-${BUILD_NUMBER}" //using IMAGE_TAG as a main version identifier
                     echo "Building The Docker Image."
                     withCredentials([usernamePassword(credentialsId: 'docker-hub-repo', passwordVariable: 'PASS', usernameVariable: 'USER')]){
-                        sh "docker build -t vatcharadze/demo-app:${IMAGE_TAG} ."
+                        sh "docker build -t ${DOCKER_REPO}:${IMAGE_TAG} ."
                         sh 'echo $PASS | docker login -u $USER --password-stdin'
-                        sh "docker push vatcharadze/demo-app:${IMAGE_TAG}"
+                        sh "docker push ${DOCKER_REPO}:${IMAGE_TAG}"
 
                     }
                 }
