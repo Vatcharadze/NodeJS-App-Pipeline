@@ -1,16 +1,15 @@
-
 pipeline {   
     agent any
-
+    //defining VERSION for no bug issues 
     environment {
         VERSION = ""
     }
-
+   //using nodejs for tool
     tools {
         nodejs 'nodejs18'
     }
     stages {
-
+        //debug stage for making sure node is installed on container
         stage('Debug') {
             steps {
                 script {
@@ -21,7 +20,7 @@ pipeline {
                 }
              }
         }
-
+        //increment version stage that increments version inside package.json
         stage('Increment Version') {
             steps {
                 script {
@@ -30,7 +29,7 @@ pipeline {
                 }
             }
         }
-
+        //this stage gets us version which was incremented by previous stage so we can use that in Build Image stage
         stage('Get New Version') {
             steps {
                 script {
@@ -43,7 +42,7 @@ pipeline {
                 }
             }
         }
-
+        //builds application
         stage("Build") {
             steps {
                 script {
@@ -52,6 +51,7 @@ pipeline {
                 }
             }
         }
+        //tests application
         stage("Test") {
             steps {
                 script {
@@ -60,11 +60,12 @@ pipeline {
                 }
             }
         }
-        
+        //build image stage
+        //using credentials to access dockerhub.This stage pushes built image in docker hub with its own incremented version
         stage("Build Image") {
             steps {
                 script {
-                    def IMAGE_TAG = "${VERSION}-${BUILD_NUMBER}"
+                    def IMAGE_TAG = "${VERSION}-${BUILD_NUMBER}" //using IMAGE_TAG as a main version identifier
                     echo "Building The Docker Image."
                     withCredentials([usernamePassword(credentialsId: 'docker-hub-repo', passwordVariable: 'PASS', usernameVariable: 'USER')]){
                         sh "docker build -t vatcharadze/demo-app:${IMAGE_TAG} ."
@@ -75,7 +76,7 @@ pipeline {
                 }
             }
         }
-
+        //deploy stage. currently nothing's happening there
         stage("deploy") {
             steps {
                 script {
